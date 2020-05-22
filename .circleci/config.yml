@@ -22,39 +22,16 @@ jobs:
             npm ci
       - save_cache:
           key: v1-deps-{{ .Branch }}-{{ checksum "e2e/package.json" }}
-          # cache NPM modules and the folder with the Cypress binary
           paths:
-            - ~/.npm
-            - ~/.cache
+            - ~/project/e2e/node_modules
+            - /home/circleci/.cache/Cypress
       - run:
           name: Run tests
           command: | 
             cd e2e
-            $(npm bin)/cypress run --spec "cypress/integration/*/*.spec.js"
-      # - run:
-      #     name: run e2e header
-      #     command: |
-      #       cd e2e
-      #       npm install
-      #       npx cypress run --spec "cypress/integration/header/header.spec.js"
-  # e2e_footer:
-  #   docker:
-  #     - image: cypress/base:8
-  #       environment:
-  #         ## this enables colors in the output
-  #         TERM: xterm
-  #     working_directory: ~/app
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: run e2e footer
-  #         command: |
-  #           cd e2e
-  #           npm install
-  #           npx cypress run --spec "cypress/integration/footer/footer.spec.js"
-  #           # npx cypress run \
-  #           #   --spec "cypress/integration/footer/footer.spec.js" \
-  #           #   --config video=false
+            $(npm bin)/cypress run \ 
+              --spec "cypress/integration/*/*.spec.js" \
+              --config video=false
 
 workflows:
   version: 2
