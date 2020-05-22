@@ -55,7 +55,16 @@ jobs:
   one:
     executor: docker-executor
     steps:
-      - build-one
+      - checkout
+      - run: echo "checkout app1"
+      - restore_cache:
+          key:
+            - node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
+          # - node-v1-{{ .Branch }}-
+          # - node-v1-
+      - run: |
+          cd app1
+          npm install
       - save_cache:
           paths:
             - ~/usr/local/lib/node_modules
