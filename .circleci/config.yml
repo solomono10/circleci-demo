@@ -26,7 +26,11 @@ jobs:
           paths:
             - ~/.npm
             - ~/.cache
-      - run: $(npm bin)/cypress run --spec "cypress/integration/*/*.spec.js"
+      - run:
+          name: Run tests
+          command: | 
+            cd e2e
+            $(npm bin)/cypress run --spec "cypress/integration/*/*.spec.js"
       # - run:
       #     name: run e2e header
       #     command: |
