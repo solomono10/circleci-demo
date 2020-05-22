@@ -42,12 +42,9 @@ jobs:
       tag: '10.4'
     steps:
       - checkout
-      - run: cd app1
-      - node/with-cache:
-          steps:
-            - run: npm install
       - run: |
           cd app1
+          npm install
           node hello.js
   two:
     executor:
@@ -55,12 +52,9 @@ jobs:
       tag: '10.4'
     steps:
       - checkout
-      - run: cd app2
-      - node/with-cache:
-          steps:
-            - run: npm install
       - run: |
           cd app2
+          npm install
           node welcome.js
 
   # one:
