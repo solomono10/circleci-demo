@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: "run e2e header"
-          commands: |
+          command: |
             - cd e2e
             - npm install
             - npm run cy:run:header
@@ -19,7 +19,7 @@ jobs:
       - checkout
       - run:
           name: "run e2e footer"
-          commands: |
+          command: |
             - cd e2e
             - npm install
             - npm run cy:run:footer
