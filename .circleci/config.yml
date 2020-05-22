@@ -7,22 +7,36 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "run e2e header"
+          name: run e2e header
           command: |
-            - cd e2e
-            - npm install
-            - npm run cy:run:header
+            cd e2e
+            npm install
+            npm test \
+              -- --spec "cypress/integration/header/header.spec.js" \
+              -- --config video=false
+
+
+
+    # "cy:run:footer": "npx cypress run --spec \"cypress/integration/footer/footer.spec.js\"",
+    # "cy:run:header": "npx cypress run --spec \"cypress/integration/header/header.spec.js\""
+
+    #         cd acceptance-test
+    #         npm t \
+    #           -- --spec "cypress/integration/backend/*.spec.js" \
+    #           -- --config video=false
   e2e-footer:
     docker:
       - image: circleci/node:10.16.0
     steps:
       - checkout
       - run:
-          name: "run e2e footer"
+          name: run e2e footer
           command: |
-            - cd e2e
-            - npm install
-            - npm run cy:run:footer
+            cd e2e
+            npm install
+            npm test \
+              -- --spec "cypress/integration/footer/footer.spec.js" \
+              -- --config video=false
 
 workflows:
   version: 2
