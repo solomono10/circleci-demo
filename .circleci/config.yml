@@ -68,9 +68,10 @@ jobs:
       #     paths:
       #       - ~/project
       #     key: node-v1-{{ .Branch }}-{{ checksum "app1/package-lock.json" }}
-      - run: |
-          cd app1
+      - run:
           node welcome.js
+          # cd app1
+          # node welcome.js
   # two:
   #   executor: docker-executor
   #   steps:
