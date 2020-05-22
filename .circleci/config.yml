@@ -12,7 +12,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1-deps-{{ .Branch }}-{{ checksum "e2e/package.json" }}
             - v1-deps-{{ .Branch }}
             - v1-deps
       - run:
@@ -21,7 +21,7 @@ jobs:
             cd e2e
             npm ci
       - save_cache:
-          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v1-deps-{{ .Branch }}-{{ checksum "e2e/package.json" }}
           # cache NPM modules and the folder with the Cypress binary
           paths:
             - ~/.npm
