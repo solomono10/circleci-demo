@@ -20,7 +20,7 @@ commands:
 executors:
   docker-executor:
     docker:
-      - image: circleci/node:10.16.02.4.1 
+      - image: circleci/node:10.16.0
 
 jobs:
   one:
@@ -40,9 +40,6 @@ workflows:
       - two:
           requires:
             - one
-   
-
-
 # version: 2
 # jobs:
 #   one:
@@ -72,4 +69,3 @@ workflows:
 #       - two:
 #           requires:
 #             - one
-   
