@@ -42,9 +42,10 @@ jobs:
       tag: '10.4'
     steps:
       - checkout
+      - run: cd app1
       - node/with-cache:
           steps:
-            - run: cd app1 && npm ci
+            - run: npm install
       - run: node hello.js
   two:
     executor:
@@ -52,10 +53,32 @@ jobs:
       tag: '10.4'
     steps:
       - checkout
+      - run: cd app2
       - node/with-cache:
           steps:
-            - run: cd app2 && npm ci
+            - run: npm install
       - run: node welcome.js
+
+  # one:
+  #   executor:
+  #     name: node/default
+  #     tag: '10.4'
+  #   steps:
+  #     - checkout
+  #     - node/with-cache:
+  #         steps:
+  #           - run: cd app1 && npm ci
+  #     - run: node hello.js
+  # two:
+  #   executor:
+  #     name: node/default
+  #     tag: '10.4'
+  #   steps:
+  #     - checkout
+  #     - node/with-cache:
+  #         steps:
+  #           - run: cd app2 && npm ci
+  #     - run: node welcome.js
 
 workflows:
   version: 2
