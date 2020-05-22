@@ -27,12 +27,19 @@ commands:
   build-one:
     steps:
       - checkout
-      - restore_cache
+      - restore_cache:
+        key:
+          - node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
+          # - node-v1-{{ .Branch }}-
+          # - node-v1-
       - run: echo "Hello project"
       - run: |
           cd app1
           npm install
-      - save_cache
+      - save_cache:
+          paths:
+            - ~/usr/local/lib/node_modules
+          key: node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
       -run: |
         cd app1
         node welcome.js
