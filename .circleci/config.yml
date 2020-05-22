@@ -1,89 +1,46 @@
-version: 2
+version: 2.1
 
-# commands:
-# save_cache:
-#   key: v3-npm-deps-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
-#   paths:
-#     - ~/project
+commands:
+  build-one:
+    steps:
+      - checkout
+      - run: echo "Hello project"
+      - run: |
+          cd app1
+          node hello.js
 
-# restore_cache:
-#   key:
-#     - node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
-#     - node-v1-{{ .Branch }}-
-#     - node-v1-
+  build-two:
+    steps:
+      - checkout
+      - run: echo "Welcome project"
+      - run: |
+          cd app2
+          node welcome.js
 
-# steps:
-#   - restore_cache:
-#       keys:
-#         # when lock file changes, use increasingly general patterns to restore cache
-#         - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-#         - node-v1-{{ .Branch }}-
-#         - node-v1-
-#   - save_cache:
-#       paths:
-#         - ~/usr/local/lib/node_modules  # location depends on npm version
-#       key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-
-# build-one:
-#   steps:
-#     - checkout
-#     - run: echo "checkout app1"
-#     - restore_cache:
-#         keys:
-#           - node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
-#           - node-v1-{{ .Branch }}-
-#           - node-v1-
-#     - run: |
-#         cd app1
-#         npm install
-
-# build-two:
-#   steps:
-#     - checkout
-#     - run: echo "Welcome project"
-#     - run: |
-#         cd app2
-#         npm install
-#         node welcome.js
-
-# executors:
-#   docker-executor:
-#     docker:
-#       - image: circleci/node:10.16.0
+executors:
+  docker-executor:
+    docker:
+      - image: circleci/node:10.16.02.
 
 jobs:
   one:
-    docker:
-      - image: circleci/node:10.16.0
+    executor: docker-executor
     steps:
-      - checkout
-      - run: echo "checkout app1"
-      - restore_cache:
-          key: node-v1-{{ .Branch }}-{{ checksum "app1/package-lock.json" }}
-      - run: |
-          cd app1
-          npm install
-      - save_cache:
-          key: node-v1-{{ .Branch }}-{{ checksum "app1/package-lock.json" }}
-          paths:
-            - ~/project
-      - run: |
-          # node hello.js
-          cd app1
-          node hello.js
-  # two:
-  #   executor: docker-executor
-  #   steps:
-  #     - build-two
+      - build-one
+  two:
+    executor: docker-executor
+    steps:
+      - build-two
 
 workflows:
   version: 2
   one_and_two:
     jobs:
       - one
-      # - two:
-      #     requires:
-      #       - one
+      - two:
+          requires:
+            - one
+# ---------------------------------- Another template ------------------------
 # version: 2
 # jobs:
 #   one:
@@ -113,3 +70,32 @@ workflows:
 #       - two:
 #           requires:
 #             - one
+
+# ---------------------------------- Another template ------------------------
+# version: 2
+
+# jobs:
+#   one:
+#     docker:
+#       - image: circleci/node:10.16.0
+#     steps:
+#       - checkout
+#       - run: echo "checkout app1"
+#       - restore_cache:
+#           key: node-v1-{{ .Branch }}-{{ checksum "app1/package-lock.json" }}
+#       - run: |
+#           cd app1
+#           npm install
+#       - save_cache:
+#           key: node-v1-{{ .Branch }}-{{ checksum "app1/package-lock.json" }}
+#           paths:
+#             - ~/project
+#       - run: |
+#           cd app1
+#           node hello.js
+
+# workflows:
+#   version: 2
+#   one_and_two:
+#     jobs:
+#       - one
