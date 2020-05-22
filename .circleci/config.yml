@@ -1,13 +1,13 @@
 version: 2.1
 
 commands:
-  save_cache: # Caches dependencies with a cache key
-    key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-    paths:
-      - ~/circleci-demo-workflows
+  # save_cache: # Caches dependencies with a cache key
+  #   key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+  #   paths:
+  #     - ~/circleci-demo-workflows
 
-  restore_cache: # Restores the cached dependency.
-    key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+  # restore_cache: # Restores the cached dependency.
+  #   key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
 
   build-one:
     steps:
