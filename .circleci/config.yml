@@ -29,8 +29,9 @@ jobs:
           name: Run tests
           command: | 
             cd e2e
-            $(npm bin)/cypress run \ 
-              --spec "cypress/integration/*/*.spec.js" \
+            $(npm bin)/cypress run \
+              --spec \
+                "cypress/integration/*/*.spec.js" \
               --config video=false
 
 workflows:
