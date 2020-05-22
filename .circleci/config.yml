@@ -1,45 +1,79 @@
-version: 2.1
-
-commands:
-  build-one:
-    steps:
-      - checkout
-      - run: echo "Hello project"
-      - run: |
-          cd app1
-          node hello.js
-
-  build-two:
-    steps:
-      - checkout
-      - run: echo "Welcome project"
-      - run: |
-          cd app2
-          node welcome.js
-
-executors:
-  docker-executor:
-    docker:
-      - image: circleci/node:10.16.0
+version: 2
 
 jobs:
-  one:
-    executor: docker-executor
+  e2e-header:
+    docker:
+      - image: circleci/node:10.16.0
     steps:
-      - build-one
-  two:
-    executor: docker-executor
+      - checkout
+      - run:
+          name: "run e2e header"
+          commands: |
+            - cd e2e
+            - npm install
+            - npm run cy:run:header
+  e2e-footer:
+    docker:
+      - image: circleci/node:10.16.0
     steps:
-      - build-two
+      - checkout
+      - run:
+          name: "run e2e footer"
+          commands: |
+            - cd e2e
+            - npm install
+            - npm run cy:run:footer
 
 workflows:
   version: 2
   one_and_two:
     jobs:
-      - one
-      - two:
-          requires:
-            - one
+      - e2e-header
+      - e2e-footer
+
+# ---------------------------------- Another template ------------------------
+# version: 2.1
+
+# commands:
+#   build-one:
+#     steps:
+#       - checkout
+#       - run: echo "Hello project"
+#       - run: |
+#           cd app1
+#           node hello.js
+
+#   build-two:
+#     steps:
+#       - checkout
+#       - run: echo "Welcome project"
+#       - run: |
+#           cd app2
+#           node welcome.js
+
+# executors:
+#   docker-executor:
+#     docker:
+#       - image: circleci/node:10.16.0
+
+# jobs:
+#   one:
+#     executor: docker-executor
+#     steps:
+#       - build-one
+#   two:
+#     executor: docker-executor
+#     steps:
+#       - build-two
+
+# workflows:
+#   version: 2
+#   one_and_two:
+#     jobs:
+#       - one
+#       - two:
+#           requires:
+#             - one
 # ---------------------------------- Another template ------------------------
 # version: 2
 # jobs:
