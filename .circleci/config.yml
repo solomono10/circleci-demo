@@ -65,8 +65,8 @@ jobs:
           cd app1
           npm install
       - save_cache:
-          path:
-            - ~/usr/local/lib/node_modules
+          paths:
+            - ~/project
           key: node-v1-{{ .Branch }}-{{ checksum "app1/package-lock.json" }}
       - run: |
           cd app1
