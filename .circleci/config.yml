@@ -11,7 +11,7 @@ jobs:
           command: |
             cd e2e
             npm install
-            npm test \
+            npx cypress run \
               -- --spec "cypress/integration/header/header.spec.js" \
               -- --config video=false
   e2e_footer:
@@ -24,7 +24,7 @@ jobs:
           command: |
             cd e2e
             npm install
-            npm test \
+            npx cypress run \
               -- --spec "cypress/integration/footer/footer.spec.js" \
               -- --config video=false
 
