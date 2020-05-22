@@ -46,14 +46,15 @@ commands:
   #         npm install
   #         node welcome.js
 
-executors:
-  docker-executor:
-    docker:
-      - image: circleci/node:10.16.0
+# executors:
+#   docker-executor:
+#     docker:
+#       - image: circleci/node:10.16.0
 
 jobs:
   one:
-    executor: docker-executor
+    docker:
+      - image: circleci/node:10.16.0
     steps:
       - checkout
       - run: echo "checkout app1"
