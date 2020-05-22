@@ -1,31 +1,49 @@
-version: 2.1
+version: 2.0
 
 commands:
-  # save_cache: # Caches dependencies with a cache key
-  #   key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-  #   paths:
-  #     - ~/circleci-demo-workflows
+  save_cache:
+    key: v3-npm-deps-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
+    paths:
+      - ~/project
 
-  # restore_cache: # Restores the cached dependency.
-  #   key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+  restore_cache:
+    key:
+      - node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
+      - node-v1-{{ .Branch }}-
+      - node-v1-
+
+  # steps:
+  #   - restore_cache:
+  #       keys:
+  #         # when lock file changes, use increasingly general patterns to restore cache
+  #         - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+  #         - node-v1-{{ .Branch }}-
+  #         - node-v1-
+  #   - save_cache:
+  #       paths:
+  #         - ~/usr/local/lib/node_modules  # location depends on npm version
+  #       key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
 
   build-one:
     steps:
       - checkout
+      - restore_cache
       - run: echo "Hello project"
       - run: |
           cd app1
           npm install
-          node hello.js
-
-  build-two:
-    steps:
-      - checkout
-      - run: echo "Welcome project"
-      - run: |
-          cd app2
-          npm install
-          node welcome.js
+      - save_cache
+      -run: |
+        cd app1
+        node welcome.js
+  # build-two:
+  #   steps:
+  #     - checkout
+  #     - run: echo "Welcome project"
+  #     - run: |
+  #         cd app2
+  #         npm install
+  #         node welcome.js
 
 executors:
   docker-executor:
@@ -43,13 +61,13 @@ jobs:
       - build-two
 
 workflows:
-  version: 2
+  version: 2.0
   one_and_two:
     jobs:
       - one
-      - two:
-          requires:
-            - one
+      # - two:
+      #     requires:
+      #       - one
 # version: 2
 # jobs:
 #   one:
