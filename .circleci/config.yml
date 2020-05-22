@@ -20,7 +20,7 @@ commands:
 executors:
   docker-executor:
     docker:
-      - image: circleci/node:10.16.02.
+      - image: circleci/node:10.16.0
 
 jobs:
   one:
