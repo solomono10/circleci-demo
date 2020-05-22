@@ -59,8 +59,7 @@ jobs:
       - checkout
       - run: echo "checkout app1"
       - restore_cache:
-          key:
-            - node-v1-{{ .Branch }}-{{ checksum "app1/package-lock.json" }}
+          key: node-v1-{{ .Branch }}-{{ checksum "app1/package-lock.json" }}
       - run: |
           cd app1
           npm install
