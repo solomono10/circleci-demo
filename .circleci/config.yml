@@ -27,22 +27,16 @@ commands:
   build-one:
     steps:
       - checkout
+      - run: echo "checkout app1"
       - restore_cache:
-        key:
-          - node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
+          key:
+            - node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
           # - node-v1-{{ .Branch }}-
           # - node-v1-
-      - run: echo "Hello project"
       - run: |
           cd app1
           npm install
-      - save_cache:
-          paths:
-            - ~/usr/local/lib/node_modules
-          key: node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
-      -run: |
-        cd app1
-        node welcome.js
+
   # build-two:
   #   steps:
   #     - checkout
@@ -62,10 +56,17 @@ jobs:
     executor: docker-executor
     steps:
       - build-one
-  two:
-    executor: docker-executor
-    steps:
-      - build-two
+      - save_cache:
+          paths:
+            - ~/usr/local/lib/node_modules
+          key: node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
+      -run: |
+        cd app1
+        node welcome.js
+  # two:
+  #   executor: docker-executor
+  #   steps:
+  #     - build-two
 
 workflows:
   version: 2.0
