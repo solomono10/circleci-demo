@@ -56,3 +56,12 @@ jobs:
           steps:
             - run: cd app2 && npm ci
       - run: node welcome.js
+
+workflows:
+version: 2
+  one_and_two:
+    jobs:
+      - one
+      - two:
+          requires:
+            - one
