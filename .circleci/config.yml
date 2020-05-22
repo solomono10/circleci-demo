@@ -69,7 +69,7 @@ jobs:
       #       - ~/project
       #     key: node-v1-{{ .Branch }}-{{ checksum "app1/package-lock.json" }}
       - run:
-          node welcome.js
+          node hello.js
           # cd app1
           # node welcome.js
   # two:
