@@ -60,8 +60,6 @@ jobs:
       - restore_cache:
           key:
             - node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
-          # - node-v1-{{ .Branch }}-
-          # - node-v1-
       - run: |
           cd app1
           npm install
@@ -69,9 +67,9 @@ jobs:
           paths:
             - ~/usr/local/lib/node_modules
           key: node-v1-{{ .Branch }}-{{ checksum "**/package-lock.json" }}
-      -run: |
-        cd app1
-        node welcome.js
+      - run: |
+          cd app1
+          node welcome.js
   # two:
   #   executor: docker-executor
   #   steps:
