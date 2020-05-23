@@ -72,11 +72,11 @@ workflows:
     jobs:
       - npm_i_e2e:
       - e2e_header
-        requires:
-          - npm_i_e2e
+          requires:
+            - npm_i_e2e
       - e2e_footer
-        requires:
-          - npm_i_e2e
+          requires:
+            - npm_i_e2e
 
 # ---------------------------------- Another template ------------------------
 # version: 2
