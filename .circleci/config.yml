@@ -1,45 +1,125 @@
 version: 2
 
-jobs:
-  e2e_header:
+references:
+  build_config: &build_config
     docker:
       - image: cypress/base:8
         environment:
           ## this enables colors in the output
           TERM: xterm
-    working_directory: ~/app
+
+  load_node_modules_e2e: &load_node_modules_e2e
+    restore_cache:
+      keys:
+        - v1-deps-{{ .Branch }}-{{ checksum "e2e/package.json" }}
+        - v1-deps-{{ .Branch }}
+        - v1-deps
+
+jobs:
+  npm_i_e2e:
+    <<: *build_config
+    resource_class: small
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-deps-{{ .Branch }}-{{ checksum "e2e/package.json" }}
-            - v1-deps-{{ .Branch }}
-            - v1-deps
+      - *load_node_modules_e2e
       - run:
-          name: Install Dependencies
-          command: | 
-            cd e2e
-            npm ci
+          name: npm ci
+          command: |
+            if [ -d "./e2e/node_modules" ]; then
+              echo "Loading node_modules from cache";
+            else
+              cd e2e
+              npm ci
+            fi
       - save_cache:
           key: v1-deps-{{ .Branch }}-{{ checksum "e2e/package.json" }}
           paths:
             - ~/project/e2e/node_modules
             - /home/circleci/.cache/Cypress
+
+  e2e_header:
+    <<: *build_config
+    resource_class: small
+    steps:
+      - checkout
+      - *load_node_modules_e2e
       - run:
-          name: Run tests
+          name: Run header test
           command: | 
             cd e2e
             $(npm bin)/cypress run \
               --spec \
-                "cypress/integration/*/*.spec.js" \
+                "cypress/integration/*/header.spec.js" \
+              --config video=false
+
+  e2e_footer:
+    <<: *build_config
+    resource_class: small
+    steps:
+      - checkout
+      - *load_node_modules_e2e
+      - run:
+          name: Run footer test
+          command: | 
+            cd e2e
+            $(npm bin)/cypress run \
+              --spec \
+                "cypress/integration/*/footer.spec.js" \
               --config video=false
 
 workflows:
   version: 2
   one_and_two:
     jobs:
+      - npm_i_e2e:
       - e2e_header
-      # - e2e_footer
+        requires:
+          - npm_i_e2e
+      - e2e_footer
+        requires:
+          - npm_i_e2e
+
+# ---------------------------------- Another template ------------------------
+# version: 2
+
+# jobs:
+#   e2e_header:
+#     docker:
+#       - image: cypress/base:8
+#         environment:
+#           ## this enables colors in the output
+#           TERM: xterm
+#     working_directory: ~/app
+#     steps:
+#       - checkout
+#       - restore_cache:
+#           keys:
+#             - v1-deps-{{ .Branch }}-{{ checksum "e2e/package.json" }}
+#             - v1-deps-{{ .Branch }}
+#             - v1-deps
+#       - run:
+#           name: Install Dependencies
+#           command: | 
+#             cd e2e
+#             npm ci
+#       - save_cache:
+#           key: v1-deps-{{ .Branch }}-{{ checksum "e2e/package.json" }}
+#           paths:
+#             - ~/project/e2e/node_modules
+#             - /home/circleci/.cache/Cypress
+#       - run:
+#           name: Run tests
+#           command: | 
+#             cd e2e
+#             $(npm bin)/cypress run \
+#               --spec \
+#                 "cypress/integration/*/*.spec.js" \
+#               --config video=false
+
+# workflows:
+#   version: 2
+#   just_one:
+#     jobs:
+#       - e2e_header
 
 # ---------------------------------- Another template ------------------------
 # version: 2.1
