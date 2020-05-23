@@ -45,10 +45,11 @@ jobs:
           name: Run header test
           command: | 
             cd e2e
-            $(npm bin)/cypress run \
-              --spec \
-                "cypress/integration/header/header.spec.js" \
-              --config video=false
+            ./node_modules/.bin/cypress run
+            # $(npm bin)/cypress run \
+            #   --spec \
+            #     "cypress/integration/header/header.spec.js" \
+            #   --config video=false
 
   e2e_footer:
     <<: *build_config
@@ -59,10 +60,11 @@ jobs:
           name: Run footer test
           command: | 
             cd e2e
-            $(npm bin)/cypress run \
-              --spec \
-                "cypress/integration/footer/footer.spec.js" \
-              --config video=false
+            ./node_modules/.bin/cypress run
+            # $(npm bin)/cypress run \
+            #   --spec \
+            #     "cypress/integration/footer/footer.spec.js" \
+            #   --config video=false
 
 workflows:
   version: 2
