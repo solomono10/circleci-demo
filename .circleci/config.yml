@@ -7,6 +7,7 @@ references:
         environment:
           ## this enables colors in the output
           TERM: xterm
+    working_directory: ~/app
 
   load_node_modules_e2e: &load_node_modules_e2e
     restore_cache:
@@ -20,6 +21,7 @@ jobs:
     <<: *build_config
     resource_class: small
     steps:
+      - checkout
       - *load_node_modules_e2e
       - run:
           name: npm ci
