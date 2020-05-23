@@ -53,7 +53,7 @@ jobs:
           name: Run header test
           command: | 
             cd e2e
-            npx cypress run \
+            $(npm bin)/cypress run \
               --spec \
                 "cypress/integration/*/header.spec.js" \
               --config video=false
@@ -68,7 +68,7 @@ jobs:
           name: Run footer test
           command: | 
             cd e2e
-            npx cypress run \
+            $(npm bin)/cypress run \
               --spec \
                 "cypress/integration/*/footer.spec.js" \
               --config video=false
