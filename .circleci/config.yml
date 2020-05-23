@@ -12,9 +12,9 @@ references:
   load_node_modules_e2e: &load_node_modules_e2e
     restore_cache:
       keys:
-        - v1-deps-{{ .Branch }}-{{ checksum "e2e/package-lock.json" }}
-        - v1-deps-{{ .Branch }}
-        - v1-deps
+        - v2-deps-{{ .Branch }}-{{ checksum "e2e/package-lock.json" }}
+        - v2-deps-{{ .Branch }}
+        - v2-deps
 
 jobs:
   npm_i_e2e:
@@ -33,7 +33,7 @@ jobs:
               npm ci
             fi
       - save_cache:
-          key: v1-deps-{{ .Branch }}-{{ checksum "e2e/package-lock.json" }}
+          key: v2-deps-{{ .Branch }}-{{ checksum "e2e/package-lock.json" }}
           # cache NPM modules and the folder with the Cypress binary
           paths:
             - ~/.npm
