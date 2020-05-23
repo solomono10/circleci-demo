@@ -7,7 +7,7 @@ references:
         environment:
           ## this enables colors in the output
           TERM: xterm
-    # working_directory: ~/project
+    working_directory: ~/project
 
   load_node_modules_e2e: &load_node_modules_e2e
     restore_cache:
@@ -33,10 +33,10 @@ jobs:
           key: v3-e2e-npm-deps-{{ checksum "e2e/package-lock.json" }}
           # cache NPM modules and the folder with the Cypress binary
           paths:
-            - ~/.npm
-            - ~/.cache
-            # - ~/project/e2e/.npm
-            # - ~/project/e2e/.cache/
+            # - ~/.npm
+            # - ~/.cache
+            - ~/project/e2e/.npm
+            - ~/project/e2e/.cache/
 
   e2e_header:
     <<: *build_config
