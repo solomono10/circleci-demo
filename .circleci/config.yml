@@ -29,8 +29,6 @@ jobs:
               cd e2e
               npm ci
             fi
-      - run:
-          command: npx cypress verify
       - save_cache:
           key: v3-e2e-npm-deps-{{ checksum "e2e/package-lock.json" }}
           # cache NPM modules and the folder with the Cypress binary
