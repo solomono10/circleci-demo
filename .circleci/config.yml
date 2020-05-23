@@ -12,7 +12,7 @@ references:
   load_node_modules_e2e: &load_node_modules_e2e
     restore_cache:
       keys:
-        - v1-deps-{{ .Branch }}-{{ checksum "e2e/package-lock.json" }}
+        - v1-deps-{{ .Branch }}-{{ checksum "e2e/package.json" }}
         - v1-deps-{{ .Branch }}
         - v1-deps
 
@@ -33,13 +33,15 @@ jobs:
               npm ci
             # fi
       - save_cache:
-          key: v1-deps-{{ .Branch }}-{{ checksum "e2e/package-lock.json" }}
+          key: v1-deps-{{ .Branch }}-{{ checksum "e2e/package.json" }}
           paths:
             # - ~/project/e2e/node_modules
             # - ~/.cache/Cypress
             # - ~/.npm
             - ~/project/e2e/node_modules
-            - /home/circleci/.cache/Cypress
+            - ~/project/circleci/.cache/Cypress
+            # - /home/circleci/.cache/Cypress
+            - ~/project/.cache/Cypress
 
   e2e_header:
     <<: *build_config
