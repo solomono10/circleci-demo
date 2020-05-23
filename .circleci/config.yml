@@ -37,11 +37,12 @@ jobs:
           paths:
             # - ~/project/e2e/node_modules
             # - ~/.cache/Cypress
-            # - ~/.npm
-            - ~/project/e2e/node_modules
-            - ~/project/circleci/.cache/Cypress
+            - ~/.npm
+            - ~/e2e/node_modules
+            - ~/circleci/.cache/Cypress
             # - /home/circleci/.cache/Cypress
-            - ~/project/.cache/Cypress
+            - ~/.cache/Cypress
+            - /home/circleci/.cache/Cypress
 
   e2e_header:
     <<: *build_config
