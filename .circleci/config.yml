@@ -7,7 +7,7 @@ references:
         environment:
           ## this enables colors in the output
           TERM: xterm
-    working_directory: ~/project
+    # working_directory: ~/project
 
   load_node_modules_e2e: &load_node_modules_e2e
     restore_cache:
