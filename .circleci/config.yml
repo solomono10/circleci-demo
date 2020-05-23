@@ -7,19 +7,16 @@ references:
         environment:
           ## this enables colors in the output
           TERM: xterm
-    working_directory: ~/app
+    working_directory: ~/project
 
   load_node_modules_e2e: &load_node_modules_e2e
     restore_cache:
       keys:
-        - v2-deps-{{ .Branch }}-{{ checksum "e2e/package-lock.json" }}
-        - v2-deps-{{ .Branch }}
-        - v2-deps
+        - v3-e2e-npm-deps-{{ checksum "e2e/package-lock.json" }}
 
 jobs:
   npm_i_e2e:
     <<: *build_config
-    resource_class: small
     steps:
       - checkout
       - *load_node_modules_e2e
@@ -33,15 +30,14 @@ jobs:
               npm ci
             fi
       - save_cache:
-          key: v2-deps-{{ .Branch }}-{{ checksum "e2e/package-lock.json" }}
+          key: v3-e2e-npm-deps-{{ checksum "e2e/package-lock.json" }}
           # cache NPM modules and the folder with the Cypress binary
           paths:
-            - ~/.npm
-            - ~/.cache
+            - ~/project/e2e/.npm
+            - ~/project/e2e/.cache/
 
   e2e_header:
     <<: *build_config
-    resource_class: small
     steps:
       - checkout
       - *load_node_modules_e2e
@@ -51,12 +47,11 @@ jobs:
             cd e2e
             $(npm bin)/cypress run \
               --spec \
-                "cypress/integration/*/header.spec.js" \
+                "cypress/integration/header/header.spec.js" \
               --config video=false
 
   e2e_footer:
     <<: *build_config
-    resource_class: small
     steps:
       - checkout
       - *load_node_modules_e2e
@@ -66,7 +61,7 @@ jobs:
             cd e2e
             $(npm bin)/cypress run \
               --spec \
-                "cypress/integration/*/footer.spec.js" \
+                "cypress/integration/footer/footer.spec.js" \
               --config video=false
 
 workflows:
