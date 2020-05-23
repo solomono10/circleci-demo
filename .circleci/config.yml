@@ -35,8 +35,8 @@ jobs:
           paths:
             # - ~/.npm
             # - ~/.cache
-            - ~/.npm
-            - ~/.cache
+            - ~/e2e/.npm
+            - ~/e2e/.cache
 
   e2e_header:
     <<: *build_config
