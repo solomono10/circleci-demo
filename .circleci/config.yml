@@ -70,13 +70,14 @@ workflows:
   version: 2
   one_and_two:
     jobs:
-      - npm_i_e2e:
-      - e2e_header
+      - npm_i_e2e
+      - e2e_header:
           requires:
             - npm_i_e2e
-      - e2e_footer
+      - e2e_footer:
           requires:
             - npm_i_e2e
+
 
 # ---------------------------------- Another template ------------------------
 # version: 2
