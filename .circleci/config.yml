@@ -35,8 +35,8 @@ jobs:
           paths:
             # - ~/.npm
             # - ~/.cache
-            - ~/e2e/.npm
-            - ~/e2e/.cache
+            - ~/project/.npm
+            - ~/project/.cache
 
   e2e_header:
     <<: *build_config
@@ -46,8 +46,7 @@ jobs:
       - run:
           name: Run header test
           command: | 
-            cd e2e
-            npm install cypress
+            cd e2e && npm install cypress
             $(npm bin)/cypress run \
               --spec \
                 "cypress/integration/header/header.spec.js" \
@@ -61,7 +60,7 @@ jobs:
       - run:
           name: Run footer test
           command: | 
-            cd e2e
+            cd e2e && npm install cypress
             npm install cypress
             $(npm bin)/cypress run \
               --spec \
