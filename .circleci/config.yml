@@ -42,7 +42,7 @@ jobs:
     <<: *build_config
     resource_class: small
     steps:
-      # - checkout
+      - checkout
       - *load_node_modules_e2e
       - run:
           name: Run header test
@@ -57,7 +57,7 @@ jobs:
     <<: *build_config
     resource_class: small
     steps:
-      # - checkout
+      - checkout
       - *load_node_modules_e2e
       - run:
           name: Run footer test
