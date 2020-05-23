@@ -35,8 +35,9 @@ jobs:
       - save_cache:
           key: v1-deps-{{ .Branch }}-{{ checksum "e2e/package-lock.json" }}
           paths:
-            - ~/project/e2e/node_modules
-            - /root/.cache/Cypress
+            # - ~/project/e2e/node_modules
+            - ~/.cache/Cypress
+            - ~/.npm
 
   e2e_header:
     <<: *build_config
