@@ -35,14 +35,8 @@ jobs:
       - save_cache:
           key: v1-deps-{{ .Branch }}-{{ checksum "e2e/package.json" }}
           paths:
-            # - ~/project/e2e/node_modules
-            # - ~/.cache/Cypress
             - ~/.npm
-            - ~/e2e/node_modules
-            - ~/circleci/.cache/Cypress
-            # - /home/circleci/.cache/Cypress
-            - ~/.cache/Cypress
-            - /home/circleci/.cache/Cypress
+            - ~/.cache
 
   e2e_header:
     <<: *build_config
