@@ -7,7 +7,7 @@ references:
         environment:
           ## this enables colors in the output
           TERM: xterm
-    working_directory: ~/app
+    working_directory: ~/project
 
   load_node_modules_e2e: &load_node_modules_e2e
     restore_cache:
@@ -48,7 +48,7 @@ jobs:
           name: Run header test
           command: | 
             cd e2e
-            $(npm bin)/cypress run \
+            npx cypress run \
               --spec \
                 "cypress/integration/*/header.spec.js" \
               --config video=false
@@ -63,7 +63,7 @@ jobs:
           name: Run footer test
           command: | 
             cd e2e
-            $(npm bin)/cypress run \
+            npx cypress run \
               --spec \
                 "cypress/integration/*/footer.spec.js" \
               --config video=false
