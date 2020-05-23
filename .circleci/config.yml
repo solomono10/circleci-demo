@@ -3,7 +3,7 @@ version: 2
 references:
   build_config: &build_config
     docker:
-      - image: cypress/base:8
+      - image: circleci/node:10.16.0
         environment:
           ## this enables colors in the output
           TERM: xterm
@@ -37,11 +37,6 @@ jobs:
             - ~/.cache
             # - ~/project/e2e/.npm
             # - ~/project/e2e/.cache/
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project
-            - .cache/Cypress
 
   e2e_header:
     <<: *build_config
