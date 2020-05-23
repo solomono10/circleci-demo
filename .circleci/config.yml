@@ -26,18 +26,20 @@ jobs:
       - run:
           name: npm ci
           command: |
-            if [ -d "./e2e/node_modules" ]; then
-              echo "Loading node_modules from cache";
-            else
+            # if [ -d "./e2e/node_modules" ]; then
+            #   echo "Loading node_modules from cache";
+            # else
               cd e2e
               npm ci
-            fi
+            # fi
       - save_cache:
           key: v1-deps-{{ .Branch }}-{{ checksum "e2e/package-lock.json" }}
           paths:
             # - ~/project/e2e/node_modules
-            - ~/.cache/Cypress
-            - ~/.npm
+            # - ~/.cache/Cypress
+            # - ~/.npm
+            - ~/project/e2e/node_modules
+            - /home/circleci/.cache/Cypress
 
   e2e_header:
     <<: *build_config
