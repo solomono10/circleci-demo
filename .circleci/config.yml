@@ -7,7 +7,7 @@ references:
         environment:
           ## this enables colors in the output
           TERM: xterm
-    working_directory: ~/project
+    # working_directory: ~/project
 
   load_node_modules_e2e: &load_node_modules_e2e
     restore_cache:
@@ -29,12 +29,23 @@ jobs:
               cd e2e
               npm ci
             fi
+      - run:
+          command: npx cypress verify
       - save_cache:
           key: v3-e2e-npm-deps-{{ checksum "e2e/package-lock.json" }}
           # cache NPM modules and the folder with the Cypress binary
           paths:
-            - ~/project/e2e/.npm
-            - ~/project/e2e/.cache/
+            - ~/.npm
+            - ~/.cache
+            # - ~/project/e2e/.npm
+            # - ~/project/e2e/.cache/
+      - run:
+          command: npm run build
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+            - .cache/Cypress
 
   e2e_header:
     <<: *build_config
@@ -45,11 +56,10 @@ jobs:
           name: Run header test
           command: | 
             cd e2e
-            ./node_modules/.bin/cypress run
-            # $(npm bin)/cypress run \
-            #   --spec \
-            #     "cypress/integration/header/header.spec.js" \
-            #   --config video=false
+            $(npm bin)/cypress run \
+              --spec \
+                "cypress/integration/header/header.spec.js" \
+              --config video=false
 
   e2e_footer:
     <<: *build_config
@@ -60,11 +70,10 @@ jobs:
           name: Run footer test
           command: | 
             cd e2e
-            ./node_modules/.bin/cypress run
-            # $(npm bin)/cypress run \
-            #   --spec \
-            #     "cypress/integration/footer/footer.spec.js" \
-            #   --config video=false
+            $(npm bin)/cypress run \
+              --spec \
+                "cypress/integration/footer/footer.spec.js" \
+              --config video=false
 
 workflows:
   version: 2
